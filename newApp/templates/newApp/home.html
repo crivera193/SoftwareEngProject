@@ -1,12 +1,20 @@
 {% extends "newApp/base.html" %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  <div class="text-center mt-5">
-    <h1 class="display-4">Hello Vaqueros</h1>
-    <p class="lead">Welcome to your Bootstrap + Django site.</p>
-  </div>
+
+<img src="{% static 'newApp/images/dashboard.jpeg' %}">
+
+
+<div class="text-center mt-5">
+  <h1 class="display-4">Hello Vaqueros</h1>
+  <p class="lead">Welcome to your Bootstrap + Django site.</p>
+</div>
+
 {% endblock %}
+
+
 
 
