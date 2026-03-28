@@ -1,0 +1,79 @@
+{% extends "newApp/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow mx-auto" style="max-width: 700px;">
+        <div class="card-body">
+            <h2 class="mb-4 text-center">Edit Profile</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <h5>Account Info</h5>
+
+                <div class="mb-3">
+                    {{ u_form.username.label_tag }}
+                    {{ u_form.username }}
+                </div>
+
+                <div class="mb-3">
+                    {{ u_form.email.label_tag }}
+                    {{ u_form.email }}
+                </div>
+
+                <hr>
+
+                <h5>Profile Picture</h5>
+
+                <div class="mb-3">
+                    {{ p_form.image.label_tag }}
+                    {{ p_form.image }}
+                </div>
+
+                <hr>
+
+                <h5>Vehicle Info</h5>
+
+                <div class="form-check mb-3">
+                    {{ p_form.car_owned }}
+                    {{ p_form.car_owned.label_tag }}
+                </div>
+
+                <div id="car-fields">
+                    <div class="mb-3">
+                        {{ p_form.car_type.label_tag }}
+                        {{ p_form.car_type }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ p_form.car_make.label_tag }}
+                        {{ p_form.car_make }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ p_form.car_model.label_tag }}
+                        {{ p_form.car_model }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ p_form.last_oil_change.label_tag }}
+                        {{ p_form.last_oil_change }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ p_form.last_tire_maintenance.label_tag }}
+                        {{ p_form.last_tire_maintenance }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ p_form.last_fluid_check.label_tag }}
+                        {{ p_form.last_fluid_check }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

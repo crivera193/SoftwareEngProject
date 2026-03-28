@@ -17,3 +17,8 @@ db.sqlite3
 
 #mydevnotes
 dev_notes.txt
+
+# Ignore media except default image
+media/*
+!media/profile_pics/
+!media/profile_pics/default.jpg
