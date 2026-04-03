@@ -1,33 +1,82 @@
 {% extends "newApp/base.html" %}
 {% load static %}
 
-{% block title %}Home | AutoPulse{% endblock %}
-
 {% block content %}
-<div class="text-center mt-5">
 
-  <h1 class="display-4">AutoPulse</h1>
-  <p class="lead">Track your vehicle maintenance with ease</p>
+<div class="container py-5">
 
-  <!-- DASHBOARD IMAGE -->
-  <div class="mt-4">
-    <img src="{% static 'newApp/images/dashboard.jpeg' %}"
-         class="img-fluid rounded shadow"
-         style="max-height: 350px;">
-  </div>
+    <!-- HERO IMAGE -->
+    <div class="mb-5">
+        <img src="{% static 'newApp/images/LogoWithCarNoBg.png' %}" 
+             class="img-fluid rounded-4 shadow">
+    </div>
+ <!-- HERO SECTION -->
+    <div class="text-center mb-3">
 
-  <!-- WELCOME MESSAGE -->
-  <div class="mt-4">
-    {% if user.is_authenticated %}
-      <p>Welcome back, <strong>{{ user.username }}</strong> 👋</p>
-      <p class="text-muted">Check your maintenance status in your profile.</p>
-    {% else %}
-      <p class="text-muted">Login or register to start tracking your vehicle.</p>
-    {% endif %}
-  </div>
+        <p class="hero-subtitle">
+            Your all-in-one car maintenance hub. Learn, fix, and stay on top of your vehicle.
+        </p>
+    </div>
+
+    <!-- MAIN SECTIONS -->
+    <div class="row g-4">
+
+        <!-- DASHBOARD DICTIONARY -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow p-5 text-center">
+                <h3 class="section-card-title mb-3"> Dashboard Dictionary</h3>
+
+                <p class="section-card-text">
+                    Understand what your dashboard warning lights mean before it becomes a problem.
+                </p>
+
+                <div class="mt-auto">
+                    <a href="{% url 'dashboard-dictionary' %}" 
+                       class="btn btn-primary mt-3">
+                        Open Dictionary
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DIY VIDEOS -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow p-5 text-center">
+                <h3 class="section-card-title mb-3"> DIY Videos</h3>
+
+                <p class="section-card-text">
+                    Learn how to change oil, replace filters, check fluids, and handle basic repairs.
+                </p>
+
+                <div class="mt-auto">
+                    <a href="{% url 'diy-videos' %}" 
+                       class="btn btn-danger mt-3">
+                        Watch Videos
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FIND MECHANIC -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow p-5 text-center">
+                <h3 class="section-card-title mb-3"> Find a Mechanic</h3>
+
+                <p class="section-card-text">
+                    Locate trusted mechanics near you when the job requires professional help.
+                </p>
+
+                <div class="mt-auto">
+                    <a href="{% url 'find-mechanic' %}" 
+                       class="btn btn-success mt-3">
+                        Find Nearby
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>
+
 {% endblock %}
-
-
-

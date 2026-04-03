@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-from .forms import UserUpdateForm, ProfileUpdateForm
+from .forms import ProfileUpdateForm, UserUpdateForm
 
 
 def home(request):
@@ -15,8 +15,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get("username")
-            messages.success(request, f"Account created for {username}! You can now log in.")
+            messages.success(request, "Account created successfully!")
             return redirect("login")
     else:
         form = UserCreationForm()
@@ -38,15 +37,22 @@ def edit_profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, "Profile saved successfully!")
+            messages.success(request, "Profile updated successfully!")
             return redirect("profile")
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    context = {
-        "u_form": u_form,
-        "p_form": p_form,
-    }
+    return render(request, "newApp/edit_profile.html", {"u_form": u_form, "p_form": p_form})
 
-    return render(request, "newApp/edit_profile.html", context)
+
+def dashboard_dictionary(request):
+    return render(request, "newApp/dashboard_dictionary.html")
+
+
+def diy_videos(request):
+    return render(request, "newApp/diy_videos.html")
+
+
+def find_mechanic(request):
+    return render(request, "newApp/find_mechanic.html")

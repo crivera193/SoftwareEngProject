@@ -1,0 +1,92 @@
+body {
+    background-color: #111827;
+    color: #f9fafb;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.custom-navbar {
+    background:  #111827;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-brand {
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    color: #e5e7eb !important;
+    font-weight: 500;
+    margin-right: 8px;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #60a5fa !important;
+}
+
+.page-content {
+    padding-top: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+
+.card {
+    background: #1f2937;
+    border: none;
+    border-radius: 20px;
+    color: #f9fafb;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card .text-muted {
+    color: #cbd5e1 !important;
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 22px;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-danger,
+.btn-success,
+.btn-outline-light {
+    border-radius: 999px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 1000;
+}
+
+.hero-subtitle {
+    color: #cbd5e1;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 1.4rem;
+}
+
+.section-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.section-card-text {
+    color: #cbd5e1;
+}
