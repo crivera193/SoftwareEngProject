@@ -1,3 +1,4 @@
+/* ================= GLOBAL ================= */
 body {
     background-color: #111827;
     color: #f9fafb;
@@ -5,15 +6,16 @@ body {
     min-height: 100vh;
 }
 
+/* ================= NAVBAR ================= */
 .custom-navbar {
-    background:  #111827;
+    background: rgba(17, 24, 39, 0.92);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-brand {
-    font-size: 1.3rem;
+    font-weight: bold;
     letter-spacing: 0.5px;
 }
 
@@ -21,21 +23,27 @@ body {
     color: #e5e7eb !important;
     font-weight: 500;
     margin-right: 8px;
-    transition: color 0.2s ease;
 }
 
 .nav-link:hover {
     color: #60a5fa !important;
 }
 
+/* ================= PAGE CONTENT ================= */
 .page-content {
     padding-top: 20px;
 }
 
+/* ================= TEXT ================= */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
 }
 
+.text-muted {
+    color: #cbd5e1 !important;
+}
+
+/* ================= CARDS ================= */
 .card {
     background: #1f2937;
     border: none;
@@ -45,19 +53,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
 }
 
-.card .text-muted {
-    color: #cbd5e1 !important;
+/* ================= PROFILE CARD ================= */
+.profile-card {
+    background-color: #1f2937;
+    color: #f9fafb;
+    border: none;
+    border-radius: 20px;
 }
 
+/* ================= PROFILE IMAGE ================= */
+.profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #374151;
+}
+
+/* ================= BUTTONS ================= */
 .btn-primary {
     background-color: #2563eb;
     border: none;
     border-radius: 999px;
-    padding: 10px 22px;
 }
 
 .btn-primary:hover {
@@ -70,23 +90,81 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 999px;
 }
 
+/* ================= HERO SECTION ================= */
 .hero-title {
-    font-size: 3.5rem;
-    font-weight: 1000;
+    font-size: 2.6rem;
+    font-weight: 800;
 }
 
 .hero-subtitle {
     color: #cbd5e1;
-    max-width: 1000px;
+    max-width: 700px;
     margin: 0 auto;
-    font-size: 1.4rem;
 }
 
-.section-card-title {
-    font-size: 1.4rem;
+/* ================= MAINTENANCE CARDS ================= */
+.maintenance-card {
+    background: #111827;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.maintenance-title {
+    font-size: 1.1rem;
     font-weight: 700;
+    margin-bottom: 10px;
 }
 
-.section-card-text {
-    color: #cbd5e1;
+.maintenance-text {
+    color: #d1d5db;
+    margin-bottom: 6px;
+}
+
+/* ================= STATUS BADGES ================= */
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-overdue {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status-soon {
+    background-color: #ffc107;
+    color: #111827;
+}
+
+.status-good {
+    background-color: #198754;
+    color: white;
+}
+
+.status-none {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* ================= IMAGES ================= */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .profile-img {
+        width: 120px;
+        height: 120px;
+    }
 }

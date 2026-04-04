@@ -39,12 +39,17 @@ def edit_profile(request):
             p_form.save()
             messages.success(request, "Profile updated successfully!")
             return redirect("profile")
+        else:
+            print(u_form.errors)
+            print(p_form.errors)
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    return render(request, "newApp/edit_profile.html", {"u_form": u_form, "p_form": p_form})
-
+    return render(request, "newApp/edit_profile.html", {
+        "u_form": u_form,
+        "p_form": p_form
+    })
 
 def dashboard_dictionary(request):
     return render(request, "newApp/dashboard_dictionary.html")

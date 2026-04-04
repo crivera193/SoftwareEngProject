@@ -9,7 +9,6 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("profile/", views.profile, name="profile"),
     path("profile/edit/", views.edit_profile, name="edit-profile"),
-
     path("dashboard-dictionary/", views.dashboard_dictionary, name="dashboard-dictionary"),
     path("diy-videos/", views.diy_videos, name="diy-videos"),
     path("find-mechanic/", views.find_mechanic, name="find-mechanic"),

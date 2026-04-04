@@ -18,8 +18,6 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = [
             'image',
-            'car_owned',
-            'car_type',
             'car_make',
             'car_model',
             'last_oil_change',
@@ -29,8 +27,6 @@ class ProfileUpdateForm(forms.ModelForm):
 
         labels = {
             'image': 'Profile Picture',
-            'car_owned': 'Do you own a car?',
-            'car_type': 'Type of Car',
             'car_make': 'Make',
             'car_model': 'Model',
             'last_oil_change': 'Last Oil Change',
@@ -40,8 +36,6 @@ class ProfileUpdateForm(forms.ModelForm):
 
         widgets = {
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'car_owned': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'car_type': forms.TextInput(attrs={'class': 'form-control'}),
             'car_make': forms.TextInput(attrs={'class': 'form-control'}),
             'car_model': forms.TextInput(attrs={'class': 'form-control'}),
             'last_oil_change': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
