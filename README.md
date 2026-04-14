@@ -88,6 +88,9 @@ Open the project in your browser:
 
 http://127.0.0.1:8000/
 
+# Run Server on GitHub Codespace
+
+python3 manage.py runserver 0.0.0.0:8000 
 
 ---
 
@@ -208,6 +211,9 @@ Push updated main branch:
 
 bash
 git push origin main
+
+
+
 
 
 ---
