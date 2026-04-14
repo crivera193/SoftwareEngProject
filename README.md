@@ -91,6 +91,10 @@ http://127.0.0.1:8000/
 # Run Server on GitHub Codespace
 
 python3 manage.py runserver 0.0.0.0:8000 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 890ba41 (commiting chnages)
 
 ---
 
