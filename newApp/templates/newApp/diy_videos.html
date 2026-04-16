@@ -3,7 +3,153 @@
 {% block content %}
 <div class="container py-5">
     <h1 class="fw-bold mb-3">DIY Videos</h1>
-    <p class="text-muted">This page will show car maintenance videos and tutorials.</p>
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill">Back Home</a>
+    <p class="text-muted">
+        Learn basic car maintenance using trusted tutorials from ChrisFix.
+    </p>
+
+    <div class="row mt-4">
+
+        <!-- 1. Oil Change -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Change Your Oil</h5>
+            <p class="text-muted">Complete step-by-step oil change guide.</p>
+
+            <div class="video-container" data-video="O1hF25Cowv8">
+                <img src="https://img.youtube.com/vi/O1hF25Cowv8/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 2. Brake Pads -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Change Brake Pads</h5>
+            <p class="text-muted">Learn how to replace brake pads safely.</p>
+
+            <div class="video-container" data-video="6RQ9UabOIPg">
+                <img src="https://img.youtube.com/vi/6RQ9UabOIPg/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 3. Car Battery -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Replace a Car Battery</h5>
+            <p class="text-muted">Battery replacement made simple.</p>
+
+            <div class="video-container" data-video="YC--MLNIbik">
+                <img src="https://img.youtube.com/vi/YC--MLNIbik/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 4. Change a Tire -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Change a Tire</h5>
+            <p class="text-muted">Step-by-step tire replacement guide.</p>
+
+            <div class="video-container" data-video="314HE4aMG-g">
+                <img src="https://img.youtube.com/vi/314HE4aMG-g/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 5. OBD2 / Check Engine Light -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Diagnose Check Engine Light</h5>
+            <p class="text-muted">Use an OBD2 scanner to find engine issues.</p>
+
+            <div class="video-container" data-video="HDv5bUR_Plo">
+                <img src="https://img.youtube.com/vi/HDv5bUR_Plo/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 6. Air Filter -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Replace Air Filter</h5>
+            <p class="text-muted">Improve performance with a clean air filter.</p>
+
+            <div class="video-container" data-video="RdXVxbd59es">
+                <img src="https://img.youtube.com/vi/RdXVxbd59es/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 7. Windshield Wipers -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Replace Wiper Blades</h5>
+            <p class="text-muted">Quick windshield wiper replacement guide.</p>
+
+            <div class="video-container" data-video="nNjsb7piiLw">
+                <img src="https://img.youtube.com/vi/nNjsb7piiLw/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+        <!-- 8. Jump Start -->
+        <div class="col-md-6 mb-4">
+            <h5>How to Jump Start a Car</h5>
+            <p class="text-muted">Safely jump start a dead battery.</p>
+
+            <div class="video-container" data-video="iI1o2hNy2hE">
+                <img src="https://img.youtube.com/vi/iI1o2hNy2hE/hqdefault.jpg"
+                     class="img-fluid rounded shadow-sm"
+                     style="cursor:pointer;">
+            </div>
+        </div>
+
+    </div>
+
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill mt-3">
+        Back Home
+    </a>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".video-container").forEach(container => {
+        const videoId = container.getAttribute("data-video");
+
+        let iframeCreated = false;
+        let iframe;
+
+        container.addEventListener("mouseenter", function () {
+            if (!iframeCreated) {
+                iframe = document.createElement("iframe");
+                iframe.width = "100%";
+                iframe.height = "315";
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0`;
+                iframe.frameBorder = "0";
+                iframe.allow = "autoplay; encrypted-media";
+                iframe.allowFullscreen = true;
+
+                container.innerHTML = "";
+                container.appendChild(iframe);
+
+                iframeCreated = true;
+            }
+        });
+
+        container.addEventListener("mouseleave", function () {
+            if (iframeCreated) {
+                iframe.src = ""; // stop video cleanly
+                container.innerHTML = `
+                    <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg"
+                         class="img-fluid rounded shadow-sm"
+                         style="cursor:pointer;">
+                `;
+                iframeCreated = false;
+            }
+        });
+    });
+});
+</script>
+
 {% endblock %}
