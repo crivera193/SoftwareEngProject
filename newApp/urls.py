@@ -12,4 +12,6 @@ urlpatterns = [
     path("dashboard-dictionary/", views.dashboard_dictionary, name="dashboard-dictionary"),
     path("diy-videos/", views.diy_videos, name="diy-videos"),
     path("find-mechanic/", views.find_mechanic, name="find-mechanic"),
+    path('api/car-makes/', views.api_car_makes, name='api_car_makes'),
+    path('api/car-models/', views.api_car_models, name='api_car_models'),
 ]

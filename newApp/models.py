@@ -8,6 +8,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile_pics', blank=True, null=True)
 
+    car_year = models.PositiveIntegerField(null=True, blank=True)
     car_make = models.CharField(max_length=100, blank=True)
     car_model = models.CharField(max_length=100, blank=True)
 

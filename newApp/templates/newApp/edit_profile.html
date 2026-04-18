@@ -6,6 +6,8 @@
         <div class="card-body">
             <h2 class="mb-4 text-center">Edit Profile</h2>
 
+            <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
@@ -14,11 +16,17 @@
                 <div class="mb-3">
                     {{ u_form.username.label_tag }}
                     {{ u_form.username }}
+                    {% if u_form.username.errors %}
+                        <div class="text-danger small">{{ u_form.username.errors }}</div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
                     {{ u_form.email.label_tag }}
                     {{ u_form.email }}
+                    {% if u_form.email.errors %}
+                        <div class="text-danger small">{{ u_form.email.errors }}</div>
+                    {% endif %}
                 </div>
 
                 <hr>
@@ -28,46 +36,52 @@
                 <div class="mb-3">
                     {{ p_form.image.label_tag }}
                     {{ p_form.image }}
+                    {% if p_form.image.errors %}
+                        <div class="text-danger small">{{ p_form.image.errors }}</div>
+                    {% endif %}
                 </div>
 
                 <hr>
 
                 <h5>Vehicle Info</h5>
 
-                <div class="form-check mb-3">
-                    {{ p_form.car_owned.label_tag }}
+                <div class="mb-3">
+                    {{ p_form.car_year.label_tag }}
+                    {{ p_form.car_year }}
+                    {% if p_form.car_year.errors %}
+                        <div class="text-danger small">{{ p_form.car_year.errors }}</div>
+                    {% endif %}
                 </div>
 
-                <div id="car-fields">
-                    <div class="mb-3">
-                        {{ p_form.car_type.label_tag }}
-                        {{ p_form.car_type }}
-                    </div>
+                <div class="mb-3">
+                    {{ p_form.car_make.label_tag }}
+                    {{ p_form.car_make }}
+                    {% if p_form.car_make.errors %}
+                        <div class="text-danger small">{{ p_form.car_make.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="mb-3">
-                        {{ p_form.car_make.label_tag }}
-                        {{ p_form.car_make }}
-                    </div>
+                <div class="mb-3">
+                    {{ p_form.car_model.label_tag }}
+                    {{ p_form.car_model }}
+                    {% if p_form.car_model.errors %}
+                        <div class="text-danger small">{{ p_form.car_model.errors }}</div>
+                    {% endif %}
+                </div>
 
-                    <div class="mb-3">
-                        {{ p_form.car_model.label_tag }}
-                        {{ p_form.car_model }}
-                    </div>
+                <div class="mb-3">
+                    {{ p_form.last_oil_change.label_tag }}
+                    {{ p_form.last_oil_change }}
+                </div>
 
-                    <div class="mb-3">
-                        {{ p_form.last_oil_change.label_tag }}
-                        {{ p_form.last_oil_change }}
-                    </div>
+                <div class="mb-3">
+                    {{ p_form.last_tire_maintenance.label_tag }}
+                    {{ p_form.last_tire_maintenance }}
+                </div>
 
-                    <div class="mb-3">
-                        {{ p_form.last_tire_maintenance.label_tag }}
-                        {{ p_form.last_tire_maintenance }}
-                    </div>
-
-                    <div class="mb-3">
-                        {{ p_form.last_fluid_check.label_tag }}
-                        {{ p_form.last_fluid_check }}
-                    </div>
+                <div class="mb-3">
+                    {{ p_form.last_fluid_check.label_tag }}
+                    {{ p_form.last_fluid_check }}
                 </div>
 
                 <button type="submit" class="btn btn-success">Save</button>
@@ -75,4 +89,115 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+    const carYear = document.getElementById("id_car_year");
+    const carMakeElement = document.getElementById("car-make");
+    const carModelElement = document.getElementById("car-model");
+
+    const existingMake = carMakeElement.value || "";
+    const existingModel = carModelElement.value || "";
+
+    const makeSelect = new TomSelect("#car-make", {
+        create: false,
+        valueField: "value",
+        labelField: "text",
+        searchField: "text",
+        maxOptions: 5000,
+        preload: false,
+        placeholder: "Type or select a make..."
+    });
+
+    const modelSelect = new TomSelect("#car-model", {
+        create: false,
+        valueField: "value",
+        labelField: "text",
+        searchField: "text",
+        placeholder: "Type or select a model..."
+    });
+
+    async function loadMakes(selectedValue = "") {
+        try {
+            const response = await fetch("{% url 'api_car_makes' %}");
+            const data = await response.json();
+
+            makeSelect.clear(true);
+            makeSelect.clearOptions();
+
+            makeSelect.addOption({ value: "", text: "Select Make" });
+
+            data.makes.forEach(function(item) {
+                makeSelect.addOption({
+                    value: item.value,
+                    text: item.label
+                });
+            });
+
+            makeSelect.refreshOptions(false);
+
+            if (selectedValue) {
+                makeSelect.setValue(selectedValue, true);
+            }
+        } catch (error) {
+            console.error("Error loading makes:", error);
+        }
+    }
+
+    async function loadModels(selectedValue = "") {
+        const year = carYear.value;
+        const make = makeSelect.getValue();
+
+        modelSelect.clear(true);
+        modelSelect.clearOptions();
+        modelSelect.addOption({ value: "", text: "Select Model" });
+
+        if (!year || !make) {
+            modelSelect.refreshOptions(false);
+            return;
+        }
+
+        try {
+            const params = new URLSearchParams({
+                year: year,
+                make: make
+            });
+
+            const response = await fetch(`/api/car-models/?${params.toString()}`);
+            const data = await response.json();
+
+            data.models.forEach(function(item) {
+                modelSelect.addOption({
+                    value: item.value,
+                    text: item.label
+                });
+            });
+
+            modelSelect.refreshOptions(false);
+
+            if (selectedValue) {
+                modelSelect.setValue(selectedValue, true);
+            }
+        } catch (error) {
+            console.error("Error loading models:", error);
+        }
+    }
+
+    await loadMakes(existingMake);
+
+    if (carYear.value && existingMake) {
+        await loadModels(existingModel);
+    }
+
+    carYear.addEventListener("change", async function () {
+        await loadModels();
+    });
+
+    makeSelect.on("change", async function () {
+        await loadModels();
+    });
+});
+</script>
 {% endblock %}
