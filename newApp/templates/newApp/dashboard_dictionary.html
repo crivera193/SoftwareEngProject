@@ -1,9 +1,136 @@
 {% extends "newApp/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard Dictionary | AutoPulse{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="fw-bold mb-3">Dashboard Dictionary</h1>
-    <p class="text-muted">This page will explain dashboard warning lights and symbols.</p>
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill">Back Home</a>
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">Dashboard Dictionary</h1>
+        <p>Click a warning light to learn what it means and how urgent it is.</p>
+    </div>
+
+    <div class="dashboard-wrapper mx-auto">
+        <img src="{% static 'newApp/images/dashboard_dictionary.jpg' %}"
+             alt="Dashboard warning lights"
+             class="img-fluid rounded shadow"
+             style="max-width: 800px; width: 100%;">
+
+        <!-- Check Engine -->
+        <button class="hotspot"
+                style="top: 2%; left: 0%; width: 9%; height: 12%;"
+                data-bs-toggle="modal"
+                data-bs-target="#lightModal"
+                data-name="Check Engine Light"
+                data-meaning="This light means the engine or emissions system may have a problem."
+                data-urgency="Medium to High"
+                data-action="Check the gas cap first. If the light stays on, get the car inspected soon."
+                data-diy="/diy-videos/">
+        </button>
+
+        <!-- Brake Warning -->
+        <button class="hotspot"
+                style="top: 18%; left: 41%; width: 9%; height: 12%;"
+                data-bs-toggle="modal"
+                data-bs-target="#lightModal"
+                data-name="Brake Warning Light"
+                data-meaning="This light may mean a brake system problem or that the parking brake is on."
+                data-urgency="High"
+                data-action="Check the parking brake. If the light stays on, inspect brakes immediately."
+                data-diy="/diy-videos/">
+        </button>
+
+        <!-- Battery -->
+        <button class="hotspot"
+                style="top: 18%; left: 81%; width: 9%; height: 12%;"
+                data-bs-toggle="modal"
+                data-bs-target="#lightModal"
+                data-name="Battery Light"
+                data-meaning="This light means the battery is not charging correctly."
+                data-urgency="Medium"
+                data-action="Limit electrical use and have the battery or alternator checked."
+                data-diy="/diy-videos/">
+        </button>
+
+        <!-- Oil Pressure -->
+        <button class="hotspot"
+                style="top: 34%; left: 59%; width: 9%; height: 12%;"
+                data-bs-toggle="modal"
+                data-bs-target="#lightModal"
+                data-name="Oil Pressure Light"
+                data-meaning="This light means your engine may not be getting enough oil pressure."
+                data-urgency="High"
+                data-action="Stop driving when safe and check the oil level immediately."
+                data-diy="/diy-videos/">
+        </button>
+
+        <!-- Tire Pressure -->
+        <button class="hotspot"
+                style="top: 49%; left: 50%; width: 9%; height: 12%;"
+                data-bs-toggle="modal"
+                data-bs-target="#lightModal"
+                data-name="Tire Pressure Light"
+                data-meaning="This light means one or more tires may have low pressure."
+                data-urgency="Low to Medium"
+                data-action="Check all tires and fill them to the recommended PSI."
+                data-diy="/diy-videos/">
+        </button>
+    </div>
 </div>
+
+<div class="modal fade" id="lightModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Light Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Meaning:</strong> <span id="modalMeaning"></span></p>
+                <p><strong>Urgency:</strong> <span id="modalUrgency"></span></p>
+                <p><strong>What to do:</strong> <span id="modalAction"></span></p>
+            </div>
+            <div class="modal-footer">
+                <a id="modalDIY" href="#" class="btn btn-primary">Go to DIY Videos</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-wrapper {
+    position: relative;
+    max-width: 800px;
+}
+
+.hotspot {
+    position: absolute;
+    background: transparent;
+    border: 2px solid transparent;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.hotspot:hover {
+    border: 2px solid white;
+    background-color: rgba(255,255,255,0.15);
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("lightModal");
+
+    modal.addEventListener("show.bs.modal", function (event) {
+        const button = event.relatedTarget;
+
+        document.getElementById("modalTitle").textContent = button.getAttribute("data-name");
+        document.getElementById("modalMeaning").textContent = button.getAttribute("data-meaning");
+        document.getElementById("modalUrgency").textContent = button.getAttribute("data-urgency");
+        document.getElementById("modalAction").textContent = button.getAttribute("data-action");
+        document.getElementById("modalDIY").href = button.getAttribute("data-diy");
+    });
+});
+</script>
 {% endblock %}
