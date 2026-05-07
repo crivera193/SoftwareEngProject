@@ -46,10 +46,6 @@ def diy_videos(request):
     return render(request, "newApp/diy_videos.html")
 
 
-def find_mechanic(request):
-    return render(request, "newApp/find_mechanic.html")
-
-
 def fetch_json(url):
     try:
         with urlopen(url, timeout=10) as response:

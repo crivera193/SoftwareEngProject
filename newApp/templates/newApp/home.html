@@ -4,6 +4,41 @@
 {% block content %}
 
 <div class="container py-5">
+    <!-- OVERDUE MESSAGE -->
+     {% if user.is_authenticated %}
+    {% if user.profile.oil_change_status == "Overdue" or user.profile.tire_maintenance_status == "Overdue" or user.profile.fluid_check_status == "Overdue" %}
+        <div class="alert alert-danger shadow-sm rounded-4 mb-4" role="alert">
+            <h5 class="fw-bold mb-2">Maintenance Alert</h5>
+            <ul class="mb-0">
+                {% if user.profile.oil_change_status == "Overdue" %}
+                    <li>Oil change is overdue. Next recommended date was {{ user.profile.next_oil_change }}.</li>
+                {% endif %}
+                {% if user.profile.tire_maintenance_status == "Overdue" %}
+                    <li>Tire maintenance is overdue. Next recommended date was {{ user.profile.next_tire_maintenance }}.</li>
+                {% endif %}
+                {% if user.profile.fluid_check_status == "Overdue" %}
+                    <li>Fluid check is overdue. Next recommended date was {{ user.profile.next_fluid_check }}.</li>
+                {% endif %}
+            </ul>
+        </div>
+
+    {% elif user.profile.oil_change_status == "Due Soon" or user.profile.tire_maintenance_status == "Due Soon" or user.profile.fluid_check_status == "Due Soon" %}
+        <div class="alert alert-warning shadow-sm rounded-4 mb-4" role="alert">
+            <h5 class="fw-bold mb-2">Maintenance Coming Up</h5>
+            <ul class="mb-0">
+                {% if user.profile.oil_change_status == "Due Soon" %}
+                    <li>Oil change is due soon: {{ user.profile.next_oil_change }}.</li>
+                {% endif %}
+                {% if user.profile.tire_maintenance_status == "Due Soon" %}
+                    <li>Tire maintenance is due soon: {{ user.profile.next_tire_maintenance }}.</li>
+                {% endif %}
+                {% if user.profile.fluid_check_status == "Due Soon" %}
+                    <li>Fluid check is due soon: {{ user.profile.next_fluid_check }}.</li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+{% endif %}
 
     <!-- HERO IMAGE -->
     <div class="mb-5 text-center">
@@ -82,26 +117,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- FIND MECHANIC -->
-        <div class="col-md-6">
-            <div class="card shadow-lg p-4 text-center border-0 h-100 d-flex flex-column">
-
-                <h3 class="mb-3">Find a Mechanic</h3>
-
-                <p class="text-muted">
-                    Locate trusted mechanics near you when the job requires professional help.
-                </p>
-
-                <div class="mt-auto">
-                    <a href="{% url 'find-mechanic' %}" 
-                       class="btn btn-success w-80">
-                        Find Nearby
-                    </a>
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </div>
