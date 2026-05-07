@@ -70,8 +70,28 @@
                 </div>
 
                 <div class="mb-3">
+                    {{ p_form.current_mileage.label_tag }}
+                    {{ p_form.current_mileage }}
+                    {% if p_form.current_mileage.errors %}
+                        <div class="text-danger small">{{ p_form.current_mileage.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <h5>Maintenance Info</h5>
+
+                <div class="mb-3">
                     {{ p_form.last_oil_change.label_tag }}
                     {{ p_form.last_oil_change }}
+                </div>
+
+                <div class="mb-3">
+                    {{ p_form.oil_change_company.label_tag }}
+                    {{ p_form.oil_change_company }}
+                    {% if p_form.oil_change_company.errors %}
+                        <div class="text-danger small">{{ p_form.oil_change_company.errors }}</div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-3">
@@ -80,11 +100,29 @@
                 </div>
 
                 <div class="mb-3">
+                    {{ p_form.tire_company.label_tag }}
+                    {{ p_form.tire_company }}
+                    {% if p_form.tire_company.errors %}
+                        <div class="text-danger small">{{ p_form.tire_company.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ p_form.tire_warranty_expiration.label_tag }}
+                    {{ p_form.tire_warranty_expiration }}
+                    {% if p_form.tire_warranty_expiration.errors %}
+                        <div class="text-danger small">{{ p_form.tire_warranty_expiration.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
                     {{ p_form.last_fluid_check.label_tag }}
                     {{ p_form.last_fluid_check }}
                 </div>
 
-                <button type="submit" class="btn btn-success">Save</button>
+                <button type="submit" class="btn btn-success">
+                    Save
+                </button>
             </form>
         </div>
     </div>
@@ -94,6 +132,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
+
     const carYear = document.getElementById("id_car_year");
     const carMakeElement = document.getElementById("car-make");
     const carModelElement = document.getElementById("car-model");
@@ -120,20 +159,27 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     async function loadMakes(selectedValue = "") {
+
         try {
+
             const response = await fetch("{% url 'api_car_makes' %}");
             const data = await response.json();
 
             makeSelect.clear(true);
             makeSelect.clearOptions();
 
-            makeSelect.addOption({ value: "", text: "Select Make" });
+            makeSelect.addOption({
+                value: "",
+                text: "Select Make"
+            });
 
             data.makes.forEach(function(item) {
+
                 makeSelect.addOption({
                     value: item.value,
                     text: item.label
                 });
+
             });
 
             makeSelect.refreshOptions(false);
@@ -141,25 +187,36 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (selectedValue) {
                 makeSelect.setValue(selectedValue, true);
             }
+
         } catch (error) {
+
             console.error("Error loading makes:", error);
+
         }
     }
 
     async function loadModels(selectedValue = "") {
+
         const year = carYear.value;
         const make = makeSelect.getValue();
 
         modelSelect.clear(true);
         modelSelect.clearOptions();
-        modelSelect.addOption({ value: "", text: "Select Model" });
+
+        modelSelect.addOption({
+            value: "",
+            text: "Select Model"
+        });
 
         if (!year || !make) {
+
             modelSelect.refreshOptions(false);
             return;
+
         }
 
         try {
+
             const params = new URLSearchParams({
                 year: year,
                 make: make
@@ -169,10 +226,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             const data = await response.json();
 
             data.models.forEach(function(item) {
+
                 modelSelect.addOption({
                     value: item.value,
                     text: item.label
                 });
+
             });
 
             modelSelect.refreshOptions(false);
@@ -180,8 +239,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (selectedValue) {
                 modelSelect.setValue(selectedValue, true);
             }
+
         } catch (error) {
+
             console.error("Error loading models:", error);
+
         }
     }
 
@@ -198,6 +260,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     makeSelect.on("change", async function () {
         await loadModels();
     });
+
 });
 </script>
+
 {% endblock %}

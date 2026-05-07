@@ -2,7 +2,7 @@
 
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, MaintenanceRecord
 from datetime import datetime
 
 
@@ -26,14 +26,18 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = [
-            "image",
-            "car_year",
-            "car_make",
-            "car_model",
-            "last_oil_change",
-            "last_tire_maintenance",
-            "last_fluid_check",
-        ]
+         "image",
+         "car_year",
+         "car_make",
+         "car_model",
+         "current_mileage",
+         "last_oil_change",
+         "last_tire_maintenance",
+         "last_fluid_check",
+         "tire_company",
+         "oil_change_company",
+]
+        
         widgets = {
             "image": forms.ClearableFileInput(attrs={"class": "form-control"}),
             "car_make": forms.Select(attrs={"class": "form-select", "id": "car-make"}),
@@ -47,6 +51,20 @@ class ProfileUpdateForm(forms.ModelForm):
             "last_fluid_check": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}
             ),
+            "current_mileage": forms.NumberInput(
+                attrs={
+            "class": "form-control",
+            "placeholder": "Current vehicle mileage"
+    }
+),
+
+"tire_company": forms.TextInput(
+    attrs={"class": "form-control"}
+),
+
+"oil_change_company": forms.TextInput(
+    attrs={"class": "form-control"}
+),
         }
 
     def __init__(self, *args, **kwargs):
@@ -68,3 +86,61 @@ class ProfileUpdateForm(forms.ModelForm):
 
         self.fields["car_make"].required = False
         self.fields["car_model"].required = False
+
+class MaintenanceRecordForm(forms.ModelForm):
+
+    class Meta:
+        model = MaintenanceRecord
+
+        fields = [
+            "maintenance_type",
+            "custom_type",
+            "service_date",
+            "next_due_date",
+            "mileage_at_service",
+            "company_name",
+            "notes",
+        ]
+
+        widgets = {
+
+            "maintenance_type": forms.Select(
+                attrs={"class": "form-select"}
+            ),
+
+            "custom_type": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+
+            "service_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control"
+                }
+            ),
+
+            "next_due_date": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control"
+                }
+            ),
+
+            "mileage_at_service": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Mileage at time of service"
+                }
+            ),
+
+            "company_name": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+
+            "notes": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4
+                }
+            ),
+        }

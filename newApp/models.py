@@ -11,10 +11,16 @@ class Profile(models.Model):
     car_year = models.PositiveIntegerField(null=True, blank=True)
     car_make = models.CharField(max_length=100, blank=True)
     car_model = models.CharField(max_length=100, blank=True)
+    vehicle_image_url = models.URLField(blank=True)
+    current_mileage = models.PositiveIntegerField(null=True, blank=True)
+
+    tire_company = models.CharField(max_length=100, blank=True)
+    oil_change_company = models.CharField(max_length=100, blank=True)
 
     last_oil_change = models.DateField(null=True, blank=True)
     last_tire_maintenance = models.DateField(null=True, blank=True)
     last_fluid_check = models.DateField(null=True, blank=True)
+    vehicle_image_url = models.URLField(blank=True)
 
     @property
     def next_oil_change(self):
@@ -78,3 +84,43 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} Profile"
+
+
+class MaintenanceRecord(models.Model):
+
+    MAINTENANCE_CHOICES = [
+        ("Oil Change", "Oil Change"),
+        ("Tire Rotation", "Tire Rotation"),
+        ("Brake Service", "Brake Service"),
+        ("Battery Replacement", "Battery Replacement"),
+        ("Air Filter", "Air Filter"),
+        ("Coolant Flush", "Coolant Flush"),
+        ("Transmission Service", "Transmission Service"),
+        ("Other", "Other"),
+    ]
+
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="maintenance_records"
+    )
+
+    maintenance_type = models.CharField(
+        max_length=100,
+        choices=MAINTENANCE_CHOICES
+    )
+
+    custom_type = models.CharField(max_length=100, blank=True)
+    service_date = models.DateField()
+    next_due_date = models.DateField(null=True, blank=True)
+    mileage_at_service = models.PositiveIntegerField(null=True, blank=True)
+    company_name = models.CharField(max_length=100, blank=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        if self.maintenance_type == "Other":
+            return self.custom_type
+
+        return self.maintenance_type
+    

@@ -34,35 +34,13 @@ body {
     padding-top: 20px;
 }
 
-/* ================= TEXT ================= */
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-}
-
-.text-muted {
-    color: #cbd5e1 !important;
-}
-
-/* ================= CARDS ================= */
-.card {
-    background: #1f2937;
-    border: none;
-    border-radius: 20px;
-    color: #f9fafb;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
-}
-
-/* ================= PROFILE CARD ================= */
-.profile-card {
-    background-color: #1f2937;
-    color: #f9fafb;
-    border: none;
-    border-radius: 20px;
+/* ================= GLASS PANEL ================= */
+.glass-panel {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 42px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
 /* ================= PROFILE IMAGE ================= */
@@ -70,7 +48,16 @@ h1, h2, h3, h4, h5, h6 {
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border: 3px solid #374151;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+/* ================= ALERTS ================= */
+.alert {
+    border: none;
+    font-weight: 600;
+    border-radius: 18px;
 }
 
 /* ================= BUTTONS ================= */
@@ -84,87 +71,138 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #1d4ed8;
 }
 
-.btn-danger,
-.btn-success,
-.btn-outline-light {
+.btn-warning {
     border-radius: 999px;
 }
 
-/* ================= HERO SECTION ================= */
-.hero-title {
-    font-size: 2.6rem;
-    font-weight: 800;
+/* ================= VEHICLE DETAILS CARD ================= */
+.vehicle-details-horizontal-card {
+    background: #1f2937;
+    border-radius: 24px;
+    color: white;
+    text-align: center;
+    padding: 32px;
 }
 
-.hero-subtitle {
-    color: #cbd5e1;
-    max-width: 700px;
+.vehicle-horizontal-img {
+    width: 100%;
+    max-width: 260px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 18px;
+    display: block;
     margin: 0 auto;
 }
 
-/* ================= MAINTENANCE CARDS ================= */
-.maintenance-card {
-    background: #111827;
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 16px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-}
-
-.maintenance-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.maintenance-text {
+.vehicle-detail-text {
     color: #d1d5db;
-    margin-bottom: 6px;
+    font-size: 1.1rem;
+    margin-bottom: 0;
 }
 
-/* ================= STATUS BADGES ================= */
-.status-badge {
+.vehicle-card-title {
+    text-align: center;
+    font-weight: 700;
+    color: white;
+}
+
+
+/* ================= MAINTENANCE CARDS ================= */
+.maintenance-dashboard-card {
+    display: flex;
+    flex-direction: column;
+    background: #1f2937;
+    border-radius: 20px;
+    color: #f9fafb;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: visible !important;
+    position: relative;
+}
+
+.maintenance-dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
+}
+
+.maintenance-small-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+}
+
+.maintenance-dashboard-card p {
+    color: #d1d5db;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.maintenance-dashboard-card h3 {
+    font-size: 1.35rem;
+}
+
+/* ================= STATUS PILLS ================= */
+.status-pill {
     display: inline-block;
-    padding: 6px 14px;
+    margin-top: 16px;
+    padding: 8px 18px;
     border-radius: 999px;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: bold;
+    width: fit-content;
 }
 
-.status-overdue {
-    background-color: #dc3545;
+.good-pill {
+    background: #198754;
     color: white;
 }
 
-.status-soon {
-    background-color: #ffc107;
-    color: #111827;
+.soon-pill {
+    background: #ffc107;
+    color: black;
 }
 
-.status-good {
-    background-color: #198754;
+.overdue-pill {
+    background: #dc3545;
     color: white;
 }
 
-.status-none {
-    background-color: #6c757d;
+.none-pill {
+    background: #6c757d;
     color: white;
 }
 
-/* ================= IMAGES ================= */
-img {
-    max-width: 100%;
-    height: auto;
+/* ================= CARD STATUS BORDERS ================= */
+.maintenance-border-good {
+    border: 4px solid #22c55e !important;
+}
+
+.maintenance-border-soon {
+    border: 4px solid #facc15 !important;
+}
+
+.maintenance-border-overdue {
+    border: 4px solid #ef4444 !important;
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2rem;
+
+    .glass-panel {
+        padding: 28px;
     }
 
     .profile-img {
         width: 120px;
         height: 120px;
+    }
+
+    .vehicle-horizontal-img {
+        height: 180px;
+        margin-bottom: 20px;
+    }
+
+    .maintenance-small-img {
+        height: 140px;
     }
 }

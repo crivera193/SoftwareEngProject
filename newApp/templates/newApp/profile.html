@@ -4,113 +4,172 @@
 {% block title %}Profile | AutoPulse{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
 
-    <div class="card shadow mx-auto p-4" style="max-width: 750px;">
+<div class="container py-5">
 
-        <!-- PROFILE HEADER -->
-        <div class="text-center">
+    <!-- ALERTS -->
+    {% if user.profile.oil_change_status == "Overdue" or user.profile.tire_maintenance_status == "Overdue" or user.profile.fluid_check_status == "Overdue" %}
+        <div class="alert alert-danger shadow-lg rounded-4 mb-4">
+            <strong>Maintenance Alert:</strong>
+            One or more maintenance items are overdue.
+        </div>
+    {% elif user.profile.oil_change_status == "Due Soon" or user.profile.tire_maintenance_status == "Due Soon" or user.profile.fluid_check_status == "Due Soon" %}
+        <div class="alert alert-warning shadow-lg rounded-4 mb-4">
+            <strong>Maintenance Reminder:</strong>
+            Some maintenance items are due soon.
+        </div>
+    {% endif %}
 
-            {% if user.profile.image %}
-                <img src="{{ user.profile.image.url }}" 
-                     class="rounded-circle profile-img mb-3">
-            {% else %}
-                <img src="{% static 'newApp/images/default.jpg' %}" 
-                     class="rounded-circle profile-img mb-3">
-            {% endif %}
+    <!-- PROFILE HEADER -->
+    <div class="glass-panel text-center mb-5">
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" class="rounded-circle profile-img mb-3">
+        {% else %}
+            <img src="{% static 'newApp/images/default.jpg' %}" class="rounded-circle profile-img mb-3">
+        {% endif %}
 
-            <h4>{{ user.username }}</h4>
-            <p class="text-muted">{{ user.email }}</p>
+        <h2 class="text-white fw-bold">{{ user.username }}</h2>
 
-            <a href="{% url 'edit-profile' %}" 
-               class="btn btn-primary rounded-pill px-4 mt-2">
-                ✏️ Edit Profile
-            </a>
+        <a href="{% url 'edit-profile' %}" class="btn btn-warning rounded-pill px-4 mt-4">
+            ✏️ Edit Profile
+        </a>
+    </div>
+
+    <!-- VEHICLE DETAILS -->
+    <div class="card shadow-lg p-4 border-0 vehicle-details-horizontal-card mb-5">
+        <h3 class="vehicle-card-title mb-4">My Car</h3>
+
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+                {% if user.profile.vehicle_image_url %}
+                    <img src="{{ user.profile.vehicle_image_url }}" class="vehicle-horizontal-img" alt="Vehicle image">
+                {% elif user.profile.image %}
+                    <img src="{{ user.profile.image.url }}" class="vehicle-horizontal-img" alt="Profile image">
+                {% else %}
+                    <img src="{% static 'newApp/images/default.jpg' %}" class="vehicle-horizontal-img" alt="Default image">
+                {% endif %}
+            </div>
+
+            <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
+                <h2 class="fw-bold mb-3">
+                    {{ user.profile.car_year|default:"Year" }}
+                    {{ user.profile.car_make|default:"Make" }}
+                    {{ user.profile.car_model|default:"Model" }}
+                </h2>
+
+                <p class="vehicle-detail-text">
+                    <strong>Mileage:</strong>
+                    {{ user.profile.current_mileage|default:"Not Set" }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAINTENANCE CARDS -->
+    <h4 class="mb-4">Maintenance Status</h4>
+
+    <div class="row g-4">
+
+        <!-- OIL CARD -->
+        <div class="col-md-4">
+            <div class="card shadow-lg p-4 text-center h-100 maintenance-dashboard-card"
+                {% if user.profile.oil_change_status == 'Overdue' %}
+                    style="border: 5px solid #ef4444;"
+                {% elif user.profile.oil_change_status == 'Due Soon' %}
+                    style="border: 5px solid #facc15;"
+                {% elif user.profile.oil_change_status == 'Good' %}
+                    style="border: 5px solid #22c55e;"
+                {% else %}
+                    style="border: 5px solid #6c757d;"
+                {% endif %}>
+
+                <h3 class="mb-3">Oil Change</h3>
+
+                <img src="{% static 'newApp/images/oil_change.jpeg' %}" class="maintenance-small-img mb-3" alt="Oil Change">
+
+                <p><strong>Last:</strong> {{ user.profile.last_oil_change|default:"Not Set" }}</p>
+                <p><strong>Next:</strong> {{ user.profile.next_oil_change|default:"Not Set" }}</p>
+                <p><strong>Company:</strong> {{ user.profile.oil_change_company|default:"Not Set" }}</p>
+
+                {% if user.profile.oil_change_status == "Overdue" %}
+                    <span class="status-pill overdue-pill mt-auto">Overdue</span>
+                {% elif user.profile.oil_change_status == "Due Soon" %}
+                    <span class="status-pill soon-pill mt-auto">Due Soon</span>
+                {% elif user.profile.oil_change_status == "Good" %}
+                    <span class="status-pill good-pill mt-auto">Good</span>
+                {% else %}
+                    <span class="status-pill none-pill mt-auto">No Date</span>
+                {% endif %}
+            </div>
         </div>
 
-        <hr>
+        <!-- TIRE CARD -->
+        <div class="col-md-4">
+            <div class="card shadow-lg p-4 text-center h-100 maintenance-dashboard-card"
+                {% if user.profile.tire_maintenance_status == 'Overdue' %}
+                    style="border: 5px solid #ef4444;"
+                {% elif user.profile.tire_maintenance_status == 'Due Soon' %}
+                    style="border: 5px solid #facc15;"
+                {% elif user.profile.tire_maintenance_status == 'Good' %}
+                    style="border: 5px solid #22c55e;"
+                {% else %}
+                    style="border: 5px solid #6c757d;"
+                {% endif %}>
 
-        <!-- VEHICLE INFO -->
-        <h5 class="mb-3"> Vehicle Information</h5>
+                <h3 class="mb-3">Tires</h3>
 
-        <p><strong>Make:</strong> {{ user.profile.car_make|default:"Not set" }}</p>
-        <p><strong>Model:</strong> {{ user.profile.car_model|default:"Not set" }}</p>
+                <img src="{% static 'newApp/images/tire.jpeg' %}" class="maintenance-small-img mb-3" alt="Tires">
 
-        <hr>
+                <p><strong>Last:</strong> {{ user.profile.last_tire_maintenance|default:"Not Set" }}</p>
+                <p><strong>Next:</strong> {{ user.profile.next_tire_maintenance|default:"Not Set" }}</p>
+                <p><strong>Company:</strong> {{ user.profile.tire_company|default:"Not Set" }}</p>
 
-        <!-- MAINTENANCE TRACKER -->
-        <h5 class="mb-3"> Maintenance Status</h5>
-
-        <!-- OIL -->
-        <div class="maintenance-card">
-            <div class="maintenance-title">Oil Change</div>
-
-            <p class="maintenance-text">
-                <strong>Last:</strong> {{ user.profile.last_oil_change|default:"Not set" }}
-            </p>
-
-            <p class="maintenance-text">
-                <strong>Next:</strong> {{ user.profile.next_oil_change|default:"Not set" }}
-            </p>
-
-            {% if user.profile.oil_change_status == "Overdue" %}
-                <span class="status-badge status-overdue">Overdue</span>
-            {% elif user.profile.oil_change_status == "Due Soon" %}
-                <span class="status-badge status-soon">Due Soon</span>
-            {% elif user.profile.oil_change_status == "Good" %}
-                <span class="status-badge status-good">Good</span>
-            {% else %}
-                <span class="status-badge status-none">No Date</span>
-            {% endif %}
+                {% if user.profile.tire_maintenance_status == "Overdue" %}
+                    <span class="status-pill overdue-pill mt-auto">Overdue</span>
+                {% elif user.profile.tire_maintenance_status == "Due Soon" %}
+                    <span class="status-pill soon-pill mt-auto">Due Soon</span>
+                {% elif user.profile.tire_maintenance_status == "Good" %}
+                    <span class="status-pill good-pill mt-auto">Good</span>
+                {% else %}
+                    <span class="status-pill none-pill mt-auto">No Date</span>
+                {% endif %}
+            </div>
         </div>
 
-        <!-- TIRES -->
-        <div class="maintenance-card">
-            <div class="maintenance-title">Tire Maintenance</div>
+        <!-- FLUID CARD -->
+        <div class="col-md-4">
+            <div class="card shadow-lg p-4 text-center h-100 maintenance-dashboard-card"
+                {% if user.profile.fluid_check_status == 'Overdue' %}
+                    style="border: 5px solid #ef4444;"
+                {% elif user.profile.fluid_check_status == 'Due Soon' %}
+                    style="border: 5px solid #facc15;"
+                {% elif user.profile.fluid_check_status == 'Good' %}
+                    style="border: 5px solid #22c55e;"
+                {% else %}
+                    style="border: 5px solid #6c757d;"
+                {% endif %}>
 
-            <p class="maintenance-text">
-                <strong>Last:</strong> {{ user.profile.last_tire_maintenance|default:"Not set" }}
-            </p>
+                <h3 class="mb-3">Fluids</h3>
 
-            <p class="maintenance-text">
-                <strong>Next:</strong> {{ user.profile.next_tire_maintenance|default:"Not set" }}
-            </p>
+                <img src="{% static 'newApp/images/engine_fluid.jpeg' %}" class="maintenance-small-img mb-3" alt="Engine Fluids">
 
-            {% if user.profile.tire_maintenance_status == "Overdue" %}
-                <span class="status-badge status-overdue">Overdue</span>
-            {% elif user.profile.tire_maintenance_status == "Due Soon" %}
-                <span class="status-badge status-soon">Due Soon</span>
-            {% elif user.profile.tire_maintenance_status == "Good" %}
-                <span class="status-badge status-good">Good</span>
-            {% else %}
-                <span class="status-badge status-none">No Date</span>
-            {% endif %}
-        </div>
+                <p><strong>Last:</strong> {{ user.profile.last_fluid_check|default:"Not Set" }}</p>
+                <p><strong>Next:</strong> {{ user.profile.next_fluid_check|default:"Not Set" }}</p>
 
-        <!-- FLUID -->
-        <div class="maintenance-card">
-            <div class="maintenance-title">Fluid Check</div>
-
-            <p class="maintenance-text">
-                <strong>Last:</strong> {{ user.profile.last_fluid_check|default:"Not set" }}
-            </p>
-
-            <p class="maintenance-text">
-                <strong>Next:</strong> {{ user.profile.next_fluid_check|default:"Not set" }}
-            </p>
-
-            {% if user.profile.fluid_check_status == "Overdue" %}
-                <span class="status-badge status-overdue">Overdue</span>
-            {% elif user.profile.fluid_check_status == "Due Soon" %}
-                <span class="status-badge status-soon">Due Soon</span>
-            {% elif user.profile.fluid_check_status == "Good" %}
-                <span class="status-badge status-good">Good</span>
-            {% else %}
-                <span class="status-badge status-none">No Date</span>
-            {% endif %}
+                {% if user.profile.fluid_check_status == "Overdue" %}
+                    <span class="status-pill overdue-pill mt-auto">Overdue</span>
+                {% elif user.profile.fluid_check_status == "Due Soon" %}
+                    <span class="status-pill soon-pill mt-auto">Due Soon</span>
+                {% elif user.profile.fluid_check_status == "Good" %}
+                    <span class="status-pill good-pill mt-auto">Good</span>
+                {% else %}
+                    <span class="status-pill none-pill mt-auto">No Date</span>
+                {% endif %}
+            </div>
         </div>
 
     </div>
 
 </div>
+
 {% endblock %}
