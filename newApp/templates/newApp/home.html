@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="container py-5">
+<div class="container-xl py-5">
     <!-- OVERDUE MESSAGE -->
      {% if user.is_authenticated %}
     {% if user.profile.oil_change_status == "Overdue" or user.profile.tire_maintenance_status == "Overdue" or user.profile.fluid_check_status == "Overdue" %}
@@ -49,7 +49,7 @@
 
     <!-- HERO TEXT -->
     <div class="text-center mb-5">
-        <p class="hero-subtitle fs-5 text">
+        <p class="hero-subtitle fs-5 text-light">
             Your all-in-one car maintenance hub. Learn, fix, and stay on top of your vehicle.
         </p>
     </div>
