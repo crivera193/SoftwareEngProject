@@ -44,77 +44,95 @@
     <div class="mb-5 text-center">
         <img src="{% static 'newApp/images/LogoWithCarNoBg.png' %}" 
              class="img-fluid rounded-4 shadow"
-             style="max-height: 300px;">
+             style="max-height: 500px;">
     </div>
 
     <!-- HERO TEXT -->
     <div class="text-center mb-5">
-        <p class="hero-subtitle fs-5 text-muted">
+        <p class="hero-subtitle fs-5 text">
             Your all-in-one car maintenance hub. Learn, fix, and stay on top of your vehicle.
         </p>
     </div>
 
     <!-- MAIN GRID -->
-    <div class="row g-3 justify-content-center">
+<div class="row g-4 justify-content-center">
 
-        <!-- MY CAR -->
-        <div class="col-md-6">
-            <div class="card shadow-lg p-4 text-center border-0 h-100 d-flex flex-column">
+    <!-- MY CAR -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-                <h3 class="mb-3">My Car</h3>
+            <h3 class="mb-3">My Car</h3>
 
-                <p class="text-muted">
-                    {% if user.profile.car_make %}
-                        {{ user.profile.car_year }} {{ user.profile.car_make }} {{ user.profile.car_model }}
-                    {% else %}
-                        No car added yet. Click below to set up your vehicle.
-                    {% endif %}
-                </p>
+            <p class="text">
+                {% if user.is_authenticated and user.profile.car_make %}
+                    {{ user.profile.car_year }} {{ user.profile.car_make }} {{ user.profile.car_model }}
+                {% else %}
+                    No car added yet. Click below to set up your vehicle.
+                {% endif %}
+            </p>
 
-                <div class="mt-auto">
-                    <a href="{% url 'profile' %}" 
-                       class="btn btn-warning w-80 rounded-pill">
-                        View My Car
-                    </a>
-                </div>
+            <div class="mt-auto">
+                <a href="{% url 'profile' %}" 
+                   class="btn btn-warning rounded-pill px-4">
+                    View My Car
+                </a>
             </div>
         </div>
+    </div>
 
-        <!-- DASHBOARD DICTIONARY -->
-        <div class="col-md-6">
-            <div class="card shadow-lg p-4 text-center border-0 h-100 d-flex flex-column">
+    <!-- DASHBOARD DICTIONARY -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-                <h3 class="mb-3">Dashboard Dictionary</h3>
+            <h3 class="mb-3">Dashboard Dictionary</h3>
 
-                <p class="text-muted">
-                    Understand what your dashboard warning lights mean before it becomes a problem.
-                </p>
+            <p class="text">
+                Understand what your dashboard warning lights mean.
+            </p>
 
-                <div class="mt-auto">
-                    <a href="{% url 'dashboard-dictionary' %}" 
-                       class="btn btn-primary w-80">
-                        Open Dictionary
-                    </a>
-                </div>
+            <div class="mt-auto">
+                <a href="{% url 'dashboard-dictionary' %}" 
+                   class="btn btn-primary rounded-pill px-4">
+                    Open Dictionary
+                </a>
             </div>
         </div>
+    </div>
 
-        <!-- DIY VIDEOS -->
-        <div class="col-md-6">
-            <div class="card shadow-lg p-4 text-center border-0 h-100 d-flex flex-column">
+    <!-- DIY VIDEOS -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-                <h3 class="mb-3">DIY Videos</h3>
+            <h3 class="mb-3">DIY Videos</h3>
 
-                <p class="text-muted">
-                    Learn how to change oil, replace filters, check fluids, and handle basic repairs.
-                </p>
+            <p class="text">
+                Change oil, replace filters, check fluids, and handle basic repairs.
+            </p>
 
-                <div class="mt-auto">
-                    <a href="{% url 'diy-videos' %}" 
-                       class="btn btn-danger w-80">
-                        Watch Videos
-                    </a>
-                </div>
+            <div class="mt-auto">
+                <a href="{% url 'diy-videos' %}" 
+                   class="btn btn-danger rounded-pill px-4">
+                    Watch Videos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORUM -->
+    <div class="col-lg-3 col-md-6">
+        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
+
+            <h3 class="mb-3">Forum</h3>
+
+            <p class="text">
+                Share car problems, post maintenance tips, and connect with others.
+            </p>
+
+            <div class="mt-auto">
+                <a href="{% url 'forum' %}" 
+                   class="btn btn-success rounded-pill px-4">
+                    Open Forum
+                </a>
             </div>
         </div>
     </div>

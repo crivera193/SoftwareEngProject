@@ -124,3 +124,34 @@ class MaintenanceRecord(models.Model):
 
         return self.maintenance_type
     
+class ForumPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    content = models.TextField()
+    image = models.ImageField(upload_to="forum_images/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    liked_by = models.ManyToManyField(
+        User,
+        related_name="liked_forum_posts",
+        blank=True
+    )
+
+    def total_likes(self):
+        return self.liked_by.count()
+
+    def __str__(self):
+        return self.title
+    
+class ForumReply(models.Model):
+    post = models.ForeignKey(
+        ForumPost,
+        on_delete=models.CASCADE,
+        related_name="replies"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Reply by {self.user.username} on {self.post.title}"

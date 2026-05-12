@@ -20,26 +20,12 @@
         </div>
     {% endif %}
 
-    <!-- PROFILE HEADER -->
-    <div class="glass-panel text-center mb-5">
-        {% if user.profile.image %}
-            <img src="{{ user.profile.image.url }}" class="rounded-circle profile-img mb-3">
-        {% else %}
-            <img src="{% static 'newApp/images/default.jpg' %}" class="rounded-circle profile-img mb-3">
-        {% endif %}
-
-        <h2 class="text-white fw-bold">{{ user.username }}</h2>
-
-        <a href="{% url 'edit-profile' %}" class="btn btn-warning rounded-pill px-4 mt-4">
-            ✏️ Edit Profile
-        </a>
-    </div>
 
     <!-- VEHICLE DETAILS -->
     <div class="card shadow-lg p-4 border-0 vehicle-details-horizontal-card mb-5">
-        <h3 class="vehicle-card-title mb-4">My Car</h3>
-
+    
         <div class="row align-items-center">
+            
             <div class="col-md-4 text-center">
                 {% if user.profile.vehicle_image_url %}
                     <img src="{{ user.profile.vehicle_image_url }}" class="vehicle-horizontal-img" alt="Vehicle image">
@@ -61,6 +47,9 @@
                     <strong>Mileage:</strong>
                     {{ user.profile.current_mileage|default:"Not Set" }}
                 </p>
+                  <a href="{% url 'edit-profile' %}" class="btn btn-warning rounded-pill px-4 mt-4">
+             Edit Vehicle
+                  </a>
             </div>
         </div>
     </div>
@@ -89,7 +78,6 @@
 
                 <p><strong>Last:</strong> {{ user.profile.last_oil_change|default:"Not Set" }}</p>
                 <p><strong>Next:</strong> {{ user.profile.next_oil_change|default:"Not Set" }}</p>
-                <p><strong>Company:</strong> {{ user.profile.oil_change_company|default:"Not Set" }}</p>
 
                 {% if user.profile.oil_change_status == "Overdue" %}
                     <span class="status-pill overdue-pill mt-auto">Overdue</span>
@@ -122,7 +110,7 @@
 
                 <p><strong>Last:</strong> {{ user.profile.last_tire_maintenance|default:"Not Set" }}</p>
                 <p><strong>Next:</strong> {{ user.profile.next_tire_maintenance|default:"Not Set" }}</p>
-                <p><strong>Company:</strong> {{ user.profile.tire_company|default:"Not Set" }}</p>
+            
 
                 {% if user.profile.tire_maintenance_status == "Overdue" %}
                     <span class="status-pill overdue-pill mt-auto">Overdue</span>

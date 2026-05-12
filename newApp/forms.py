@@ -4,6 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Profile, MaintenanceRecord
 from datetime import datetime
+from .models import ForumPost, ForumReply
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -33,9 +34,7 @@ class ProfileUpdateForm(forms.ModelForm):
          "current_mileage",
          "last_oil_change",
          "last_tire_maintenance",
-         "last_fluid_check",
-         "tire_company",
-         "oil_change_company",
+         "last_fluid_check"
 ]
         
         widgets = {
@@ -55,16 +54,8 @@ class ProfileUpdateForm(forms.ModelForm):
                 attrs={
             "class": "form-control",
             "placeholder": "Current vehicle mileage"
-    }
-),
-
-"tire_company": forms.TextInput(
-    attrs={"class": "form-control"}
-),
-
-"oil_change_company": forms.TextInput(
-    attrs={"class": "form-control"}
-),
+    }         
+    ),
         }
 
     def __init__(self, *args, **kwargs):
@@ -144,3 +135,38 @@ class MaintenanceRecordForm(forms.ModelForm):
                 }
             ),
         }
+
+class ForumPostForm(forms.ModelForm):
+    class Meta:
+        model = ForumPost
+        fields = ["title", "content"]
+
+        widgets = {
+            "title": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Example: Why is my car shaking at 40 mph?"
+            }),
+            "content": forms.Textarea(attrs={
+                "class": "form-control",
+                "rows": 5,
+                "placeholder": "Describe your car issue or question..."
+            }),
+        }
+
+class ForumReplyForm(forms.ModelForm):
+    class Meta:
+        model = ForumReply
+        fields = ["content"]
+
+        widgets = {
+            "content": forms.Textarea(attrs={
+                "class": "form-control forum-reply-input",
+                "rows": 2,
+                "placeholder": "Write a reply..."
+            }),
+        }
+    
+class ForumPostForm(forms.ModelForm):
+    class Meta:
+        model = ForumPost
+        fields = ["title", "content", "image"]

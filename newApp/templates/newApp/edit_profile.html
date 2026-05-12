@@ -29,20 +29,6 @@
                     {% endif %}
                 </div>
 
-                <hr>
-
-                <h5>Profile Picture</h5>
-
-                <div class="mb-3">
-                    {{ p_form.image.label_tag }}
-                    {{ p_form.image }}
-                    {% if p_form.image.errors %}
-                        <div class="text-danger small">{{ p_form.image.errors }}</div>
-                    {% endif %}
-                </div>
-
-                <hr>
-
                 <h5>Vehicle Info</h5>
 
                 <div class="mb-3">
@@ -85,36 +71,10 @@
                     {{ p_form.last_oil_change.label_tag }}
                     {{ p_form.last_oil_change }}
                 </div>
-
-                <div class="mb-3">
-                    {{ p_form.oil_change_company.label_tag }}
-                    {{ p_form.oil_change_company }}
-                    {% if p_form.oil_change_company.errors %}
-                        <div class="text-danger small">{{ p_form.oil_change_company.errors }}</div>
-                    {% endif %}
-                </div>
-
                 <div class="mb-3">
                     {{ p_form.last_tire_maintenance.label_tag }}
                     {{ p_form.last_tire_maintenance }}
                 </div>
-
-                <div class="mb-3">
-                    {{ p_form.tire_company.label_tag }}
-                    {{ p_form.tire_company }}
-                    {% if p_form.tire_company.errors %}
-                        <div class="text-danger small">{{ p_form.tire_company.errors }}</div>
-                    {% endif %}
-                </div>
-
-                <div class="mb-3">
-                    {{ p_form.tire_warranty_expiration.label_tag }}
-                    {{ p_form.tire_warranty_expiration }}
-                    {% if p_form.tire_warranty_expiration.errors %}
-                        <div class="text-danger small">{{ p_form.tire_warranty_expiration.errors }}</div>
-                    {% endif %}
-                </div>
-
                 <div class="mb-3">
                     {{ p_form.last_fluid_check.label_tag }}
                     {{ p_form.last_fluid_check }}

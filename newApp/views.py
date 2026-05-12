@@ -10,7 +10,10 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import ForumPost, ForumReply
+from .forms import ForumPostForm, ForumReplyForm
+
 
 from .forms import UserUpdateForm, ProfileUpdateForm
 
@@ -57,7 +60,7 @@ def fetch_json(url):
     except (URLError, HTTPError, TimeoutError, ValueError):
         return {"Results": []}
 
-
+#Car makes and models API
 def get_car_makes():
     url = f"{VPIC_BASE_URL}/GetMakesForVehicleType/car?format=json"
     data = fetch_json(url)
@@ -97,38 +100,35 @@ def get_car_models(make, year):
 
     return sorted(set(models), key=lambda x: x[0].lower())
 
-
+#Car images API 
 def get_vehicle_image(year, make, model):
-    query = f"{year} {make} {model} car"
 
-    url = "https://api.unsplash.com/search/photos"
+    if not make or not model:
+        return ""
 
-    headers = {
-        "Accept-Version": "v1",
-    }
+    api_key = "ci_425c9616d82fac61df41c44bbbb95a181c2e3c02d5da4911cce8659f"
 
-    params = {
-        "query": query,
-        "per_page": 1,
-        "client_id": "sz9DIWRV3xQh9FevRdtdl7IypqTLw_syfNcly4Hvav4",
-    }
+    url = (
+        "https://carimagesapi.com/api/v1/signed-url"
+        f"?api_key={api_key}"
+        f"&make={quote(make)}"
+        f"&model={quote(model)}"
+        f"&year={quote(str(year))}"
+    )
 
     try:
-        response = requests.get(
-            url,
-            headers=headers,
-            params=params,
-            timeout=10
-        )
+        response = requests.get(url, timeout=10)
+
+        if response.status_code != 200:
+            print("CarImagesAPI Error:", response.status_code)
+            return ""
 
         data = response.json()
-        results = data.get("results", [])
 
-        if results:
-            return results[0]["urls"]["regular"]
+        return data.get("url", "")
 
-    except Exception:
-        pass
+    except Exception as error:
+        print("Vehicle image error:", error)
 
     return ""
 
@@ -233,3 +233,50 @@ def api_car_models(request):
     return JsonResponse({
         "models": [{"value": value, "label": label} for value, label in models]
     })
+
+@login_required
+def forum(request):
+    if request.method == "POST":
+        form = ForumPostForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect("forum")
+
+    else:
+        form = ForumPostForm()
+
+    posts = ForumPost.objects.all().order_by("-created_at")
+
+    return render(request, "newApp/forum.html", {
+        "form": form,
+        "posts": posts,
+    })
+
+@login_required
+def like_forum_post(request, post_id):
+    post = get_object_or_404(ForumPost, id=post_id)
+
+    if request.user in post.liked_by.all():
+        post.liked_by.remove(request.user)
+    else:
+        post.liked_by.add(request.user)
+
+    return redirect("forum")
+
+@login_required
+def reply_to_forum_post(request, post_id):
+    post = get_object_or_404(ForumPost, id=post_id)
+
+    if request.method == "POST":
+        form = ForumReplyForm(request.POST)
+
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.post = post
+            reply.user = request.user
+            reply.save()
+
+    return redirect("forum")

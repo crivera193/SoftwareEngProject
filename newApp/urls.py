@@ -13,4 +13,7 @@ urlpatterns = [
     path("diy-videos/", views.diy_videos, name="diy-videos"),
     path('api/car-makes/', views.api_car_makes, name='api_car_makes'),
     path('api/car-models/', views.api_car_models, name='api_car_models'),
+    path("forum/", views.forum, name="forum"),
+    path("forum/like/<int:post_id>/", views.like_forum_post, name="like-forum-post"),
+    path("forum/reply/<int:post_id>/", views.reply_to_forum_post, name="reply-forum-post"),
 ]
