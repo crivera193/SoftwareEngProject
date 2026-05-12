@@ -111,7 +111,7 @@ body {
 }
 
 .maintenance-dashboard-card p {
-    color: #d1d5db;
+    color: #f8f9fa;
     margin-bottom: 8px;
     font-size: 0.95rem;
 }
@@ -179,32 +179,12 @@ body {
         0 12px 22px rgba(0,0,0,0.3);
 }
 
-/* Forum Page Cleanup */
-.card {
-    background-color: #ffffff;
-}
-
-.card input,
-.card textarea {
-    background-color: #ffffff !important;
-    color: #212529 !important;
-    border: 1px solid #ced4da;
-}
-
-.card input::placeholder,
-.card textarea::placeholder {
-    color: #6c757d !important;
-}
-
-.card label,
-.card h2,
-.card h4,
-.card h5,
-.card p {
-    color: #212529;
-}
-
 .list-group-item {
     background-color: #ffffff;
     color: #212529;
+}
+
+.vehicle-details-horizontal-card p,
+.maintenance-dashboard-card p {
+    color: #f8f9fa !important;
 }
