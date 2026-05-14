@@ -143,63 +143,6 @@ class ProfileUpdateForm(forms.ModelForm):
         return cleaned_data
 
 
-class MaintenanceRecordForm(forms.ModelForm):
-    class Meta:
-        model = MaintenanceRecord
-
-        fields = [
-            "maintenance_type",
-            "custom_type",
-            "service_date",
-            "next_due_date",
-            "mileage_at_service",
-            "company_name",
-            "notes",
-        ]
-
-        widgets = {
-            "maintenance_type": forms.Select(
-                attrs={"class": "form-select"}
-            ),
-
-            "custom_type": forms.TextInput(
-                attrs={"class": "form-control"}
-            ),
-
-            "service_date": forms.DateInput(
-                attrs={
-                    "type": "date",
-                    "class": "form-control"
-                }
-            ),
-
-            "next_due_date": forms.DateInput(
-                attrs={
-                    "type": "date",
-                    "class": "form-control"
-                }
-            ),
-
-            "mileage_at_service": forms.NumberInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Mileage at time of service"
-                }
-            ),
-
-            "company_name": forms.TextInput(
-                attrs={"class": "form-control"}
-            ),
-
-            "notes": forms.Textarea(
-                attrs={
-                    "class": "form-control",
-                    "rows": 4
-                }
-            ),
-        }
-
-
 class ForumPostForm(forms.ModelForm):
     class Meta:
         model = ForumPost

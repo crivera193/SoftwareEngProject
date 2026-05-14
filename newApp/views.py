@@ -20,7 +20,7 @@ from .forms import (
     ForumReplyForm,
 )
 
-
+#National Highway Traffic Safety Administration API for car makes and models
 VPIC_BASE_URL = "https://vpic.nhtsa.dot.gov/api/vehicles"
 
 

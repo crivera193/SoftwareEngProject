@@ -16,6 +16,7 @@ class Profile(models.Model):
     last_tire_maintenance = models.DateField(null=True, blank=True)
     last_fluid_check = models.DateField(null=True, blank=True)
 
+# Maintenance record fields
     @property
     def next_oil_change(self):
         if self.last_oil_change:
@@ -79,7 +80,7 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
 
-
+# Maintenance record model
 class MaintenanceRecord(models.Model):
 
     MAINTENANCE_CHOICES = [
