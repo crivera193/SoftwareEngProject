@@ -49,19 +49,20 @@
                         placeholder="Describe your car issue or question..."
                         required
                     ></textarea>
-                    <div class="mb-3">
-    <label for="image" class="form-label fw-semibold text-dark">
-        Add Photo
-    </label>
+                </div>
 
-    <input 
-        type="file"
-        name="image"
-        id="image"
-        class="form-control bg-white text-dark"
-        accept="image/*"
-    >
-</div>
+                <div class="mb-3">
+                    <label for="image" class="form-label fw-semibold text-dark">
+                        Add Photo
+                    </label>
+
+                    <input 
+                        type="file"
+                        name="image"
+                        id="image"
+                        class="form-control bg-white text-dark"
+                        accept="image/*"
+                    >
                 </div>
 
                 <button type="submit" class="btn btn-success px-4 py-2 fw-semibold rounded-pill">
@@ -110,16 +111,17 @@
             <p class="fs-5 text-dark mb-4">
                 {{ post.content }}
             </p>
+
             {% if post.image %}
-    <div class="mb-4">
-        <img 
-            src="{{ post.image.url }}" 
-            alt="Forum post image"
-            class="img-fluid rounded-4 shadow-sm"
-            style="max-height: 350px; object-fit: cover;"
-        >
-    </div>
-{% endif %}
+            <div class="mb-4">
+                <img 
+                    src="{{ post.image.url }}" 
+                    alt="Forum post image"
+                    class="img-fluid rounded-4 shadow-sm"
+                    style="max-height: 350px; object-fit: cover;"
+                >
+            </div>
+            {% endif %}
 
             <!-- LIKE BUTTON -->
             <div class="d-flex align-items-center gap-3 mb-4">
@@ -176,52 +178,52 @@
                     </p>
                 {% endif %}
 
-            <!-- REPLY FORM TOGGLE -->
-{% if user.is_authenticated %}
-<div class="mt-3">
+                <!-- REPLY FORM TOGGLE -->
+                {% if user.is_authenticated %}
+                <div class="mt-3">
 
-    <button 
-        class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-semibold mb-3"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#replyForm{{ post.id }}"
-        aria-expanded="false"
-        aria-controls="replyForm{{ post.id }}"
-    >
-        Add a Reply
-    </button>
+                    <button 
+                        class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-semibold mb-3"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#replyForm{{ post.id }}"
+                        aria-expanded="false"
+                        aria-controls="replyForm{{ post.id }}"
+                    >
+                        Add a Reply
+                    </button>
 
-    <div class="collapse" id="replyForm{{ post.id }}">
-        <form method="POST" action="{% url 'reply-forum-post' post.id %}">
-            {% csrf_token %}
+                    <div class="collapse" id="replyForm{{ post.id }}">
+                        <form method="POST" action="{% url 'reply-forum-post' post.id %}">
+                            {% csrf_token %}
 
-            <div class="mb-3">
-                <label for="reply-{{ post.id }}" class="form-label fw-semibold text-dark">
-                    Your Reply
-                </label>
+                            <div class="mb-3">
+                                <label for="reply-{{ post.id }}" class="form-label fw-semibold text-dark">
+                                    Your Reply
+                                </label>
 
-                <textarea 
-                    name="content" 
-                    id="reply-{{ post.id }}"
-                    class="form-control bg-white text-dark"
-                    rows="3"
-                    placeholder="Write your reply..."
-                    required
-                ></textarea>
-            </div>
+                                <textarea 
+                                    name="content" 
+                                    id="reply-{{ post.id }}"
+                                    class="form-control bg-white text-dark"
+                                    rows="3"
+                                    placeholder="Write your reply..."
+                                    required
+                                ></textarea>
+                            </div>
 
-            <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 fw-semibold">
-                Submit Reply
-            </button>
-        </form>
-    </div>
+                            <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 fw-semibold">
+                                Submit Reply
+                            </button>
+                        </form>
+                    </div>
 
-</div>
-{% else %}
-<p class="text-muted">
-    You must be logged in to reply.
-</p>
-{% endif %}
+                </div>
+                {% else %}
+                <p class="text-muted">
+                    You must be logged in to reply.
+                </p>
+                {% endif %}
             </div>
 
         </div>

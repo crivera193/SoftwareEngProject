@@ -1,88 +1,167 @@
 {% extends "newApp/base.html" %}
 
 {% block content %}
-<div class="container-xl mt-5">
+
+<div class="container-xl py-5">
     <div class="card shadow mx-auto" style="max-width: 700px;">
         <div class="card-body">
-            <h2 class="mb-4 text-center">Edit Profile</h2>
+
+            <h2 class="mb-4 text-center text-dark">
+                Edit Profile
+            </h2>
 
             <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
 
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST">
                 {% csrf_token %}
 
-                <h5>Account Info</h5>
+                <!-- ACCOUNT INFO -->
+                <h5 class="text-dark">Account Info</h5>
 
                 <div class="mb-3">
                     {{ u_form.username.label_tag }}
                     {{ u_form.username }}
+
                     {% if u_form.username.errors %}
-                        <div class="text-danger small">{{ u_form.username.errors }}</div>
+                        <div class="text-danger small">
+                            {{ u_form.username.errors }}
+                        </div>
                     {% endif %}
                 </div>
 
                 <div class="mb-3">
                     {{ u_form.email.label_tag }}
                     {{ u_form.email }}
+
                     {% if u_form.email.errors %}
-                        <div class="text-danger small">{{ u_form.email.errors }}</div>
+                        <div class="text-danger small">
+                            {{ u_form.email.errors }}
+                        </div>
                     {% endif %}
                 </div>
 
-                <h5>Vehicle Info</h5>
+                <hr>
+
+                <!-- VEHICLE INFO -->
+                <h5 class="text-dark">Vehicle Info</h5>
 
                 <div class="mb-3">
                     {{ p_form.car_year.label_tag }}
                     {{ p_form.car_year }}
+
                     {% if p_form.car_year.errors %}
-                        <div class="text-danger small">{{ p_form.car_year.errors }}</div>
+                        <div class="text-danger small">
+                            {{ p_form.car_year.errors }}
+                        </div>
                     {% endif %}
                 </div>
 
                 <div class="mb-3">
                     {{ p_form.car_make.label_tag }}
                     {{ p_form.car_make }}
+
                     {% if p_form.car_make.errors %}
-                        <div class="text-danger small">{{ p_form.car_make.errors }}</div>
+                        <div class="text-danger small">
+                            {{ p_form.car_make.errors }}
+                        </div>
                     {% endif %}
                 </div>
 
                 <div class="mb-3">
                     {{ p_form.car_model.label_tag }}
                     {{ p_form.car_model }}
+
                     {% if p_form.car_model.errors %}
-                        <div class="text-danger small">{{ p_form.car_model.errors }}</div>
+                        <div class="text-danger small">
+                            {{ p_form.car_model.errors }}
+                        </div>
                     {% endif %}
                 </div>
 
                 <div class="mb-3">
                     {{ p_form.current_mileage.label_tag }}
                     {{ p_form.current_mileage }}
+
                     {% if p_form.current_mileage.errors %}
-                        <div class="text-danger small">{{ p_form.current_mileage.errors }}</div>
+                        <div class="text-danger small">
+                            {{ p_form.current_mileage.errors }}
+                        </div>
                     {% endif %}
                 </div>
 
                 <hr>
 
-                <h5>Maintenance Info</h5>
+                <!-- MAINTENANCE INFO -->
+                <h5 class="text-dark">Maintenance Info</h5>
 
                 <div class="mb-3">
                     {{ p_form.last_oil_change.label_tag }}
                     {{ p_form.last_oil_change }}
+
+                    {% if p_form.last_oil_change.errors %}
+                        <div class="text-danger small">
+                            {{ p_form.last_oil_change.errors }}
+                        </div>
+                    {% endif %}
                 </div>
+
                 <div class="mb-3">
                     {{ p_form.last_tire_maintenance.label_tag }}
                     {{ p_form.last_tire_maintenance }}
+
+                    {% if p_form.last_tire_maintenance.errors %}
+                        <div class="text-danger small">
+                            {{ p_form.last_tire_maintenance.errors }}
+                        </div>
+                    {% endif %}
                 </div>
+
                 <div class="mb-3">
                     {{ p_form.last_fluid_check.label_tag }}
                     {{ p_form.last_fluid_check }}
+
+                    {% if p_form.last_fluid_check.errors %}
+                        <div class="text-danger small">
+                            {{ p_form.last_fluid_check.errors }}
+                        </div>
+                    {% endif %}
                 </div>
 
-                <button type="submit" class="btn btn-success">
+                <hr>
+
+                <!-- OPTIONAL MAINTENANCE RECORD -->
+                <h5 class="text-dark">Optional Maintenance Record</h5>
+
+                <p class="text-muted small">
+                    Use this section only if you want to add a maintenance history record while updating your profile.
+                </p>
+
+                <div class="mb-3">
+                    {{ p_form.maintenance_record_type.label_tag }}
+                    {{ p_form.maintenance_record_type }}
+
+                    {% if p_form.maintenance_record_type.errors %}
+                        <div class="text-danger small">
+                            {{ p_form.maintenance_record_type.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    {{ p_form.maintenance_service_date.label_tag }}
+                    {{ p_form.maintenance_service_date }}
+
+                    {% if p_form.maintenance_service_date.errors %}
+                        <div class="text-danger small">
+                            {{ p_form.maintenance_service_date.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-success rounded-pill px-4">
                     Save
                 </button>
+
             </form>
         </div>
     </div>
@@ -121,7 +200,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function loadMakes(selectedValue = "") {
 
         try {
-
             const response = await fetch("{% url 'api_car_makes' %}");
             const data = await response.json();
 
@@ -134,12 +212,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             data.makes.forEach(function(item) {
-
                 makeSelect.addOption({
                     value: item.value,
                     text: item.label
                 });
-
             });
 
             makeSelect.refreshOptions(false);
@@ -149,9 +225,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
         } catch (error) {
-
             console.error("Error loading makes:", error);
-
         }
     }
 
@@ -169,14 +243,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         if (!year || !make) {
-
             modelSelect.refreshOptions(false);
             return;
-
         }
 
         try {
-
             const params = new URLSearchParams({
                 year: year,
                 make: make
@@ -186,12 +257,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             const data = await response.json();
 
             data.models.forEach(function(item) {
-
                 modelSelect.addOption({
                     value: item.value,
                     text: item.label
                 });
-
             });
 
             modelSelect.refreshOptions(false);
@@ -201,9 +270,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
         } catch (error) {
-
             console.error("Error loading models:", error);
-
         }
     }
 

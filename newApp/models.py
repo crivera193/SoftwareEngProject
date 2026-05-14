@@ -6,21 +6,15 @@ from django.utils import timezone
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='profile_pics', blank=True, null=True)
-
     car_year = models.PositiveIntegerField(null=True, blank=True)
     car_make = models.CharField(max_length=100, blank=True)
     car_model = models.CharField(max_length=100, blank=True)
     vehicle_image_url = models.URLField(blank=True)
     current_mileage = models.PositiveIntegerField(null=True, blank=True)
 
-    tire_company = models.CharField(max_length=100, blank=True)
-    oil_change_company = models.CharField(max_length=100, blank=True)
-
     last_oil_change = models.DateField(null=True, blank=True)
     last_tire_maintenance = models.DateField(null=True, blank=True)
     last_fluid_check = models.DateField(null=True, blank=True)
-    vehicle_image_url = models.URLField(blank=True)
 
     @property
     def next_oil_change(self):
@@ -123,7 +117,8 @@ class MaintenanceRecord(models.Model):
             return self.custom_type
 
         return self.maintenance_type
-    
+
+#Forum    
 class ForumPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)

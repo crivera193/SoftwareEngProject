@@ -188,3 +188,33 @@ body {
 .maintenance-dashboard-card p {
     color: #f8f9fa !important;
 }
+
+/* ================= MAINTENANCE RECORD HISTORY ================= */
+.maintenance-record-history-card {
+    background: #1f2937;
+    color: #ffffff;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.maintenance-record-history-card table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.maintenance-record-history-card th {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.maintenance-record-history-card td {
+    color: #f8f9fa;
+}
+
+.maintenance-record-history-card .table-dark {
+    --bs-table-bg: #111827;
+    --bs-table-striped-bg: #182232;
+    --bs-table-hover-bg: #243044;
+    --bs-table-color: #ffffff;
+    --bs-table-border-color: rgba(255, 255, 255, 0.12);
+}

@@ -4,47 +4,55 @@
 {% block content %}
 
 <div class="container-xl py-5">
-    <!-- OVERDUE MESSAGE -->
-     {% if user.is_authenticated %}
-    {% if user.profile.oil_change_status == "Overdue" or user.profile.tire_maintenance_status == "Overdue" or user.profile.fluid_check_status == "Overdue" %}
-        <div class="alert alert-danger shadow-sm rounded-4 mb-4" role="alert">
-            <h5 class="fw-bold mb-2">Maintenance Alert</h5>
-            <ul class="mb-0">
-                {% if user.profile.oil_change_status == "Overdue" %}
-                    <li>Oil change is overdue. Next recommended date was {{ user.profile.next_oil_change }}.</li>
-                {% endif %}
-                {% if user.profile.tire_maintenance_status == "Overdue" %}
-                    <li>Tire maintenance is overdue. Next recommended date was {{ user.profile.next_tire_maintenance }}.</li>
-                {% endif %}
-                {% if user.profile.fluid_check_status == "Overdue" %}
-                    <li>Fluid check is overdue. Next recommended date was {{ user.profile.next_fluid_check }}.</li>
-                {% endif %}
-            </ul>
-        </div>
 
-    {% elif user.profile.oil_change_status == "Due Soon" or user.profile.tire_maintenance_status == "Due Soon" or user.profile.fluid_check_status == "Due Soon" %}
-        <div class="alert alert-warning shadow-sm rounded-4 mb-4" role="alert">
-            <h5 class="fw-bold mb-2">Maintenance Coming Up</h5>
-            <ul class="mb-0">
-                {% if user.profile.oil_change_status == "Due Soon" %}
-                    <li>Oil change is due soon: {{ user.profile.next_oil_change }}.</li>
-                {% endif %}
-                {% if user.profile.tire_maintenance_status == "Due Soon" %}
-                    <li>Tire maintenance is due soon: {{ user.profile.next_tire_maintenance }}.</li>
-                {% endif %}
-                {% if user.profile.fluid_check_status == "Due Soon" %}
-                    <li>Fluid check is due soon: {{ user.profile.next_fluid_check }}.</li>
-                {% endif %}
-            </ul>
-        </div>
+    <!-- OVERDUE MESSAGE -->
+    {% if user.is_authenticated %}
+        {% if user.profile.oil_change_status == "Overdue" or user.profile.tire_maintenance_status == "Overdue" or user.profile.fluid_check_status == "Overdue" %}
+            <div class="alert alert-danger shadow-sm rounded-4 mb-4" role="alert">
+                <h5 class="fw-bold mb-2">Maintenance Alert</h5>
+                <ul class="mb-0">
+                    {% if user.profile.oil_change_status == "Overdue" %}
+                        <li>Oil change is overdue. Next recommended date was {{ user.profile.next_oil_change }}.</li>
+                    {% endif %}
+
+                    {% if user.profile.tire_maintenance_status == "Overdue" %}
+                        <li>Tire maintenance is overdue. Next recommended date was {{ user.profile.next_tire_maintenance }}.</li>
+                    {% endif %}
+
+                    {% if user.profile.fluid_check_status == "Overdue" %}
+                        <li>Fluid check is overdue. Next recommended date was {{ user.profile.next_fluid_check }}.</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        {% elif user.profile.oil_change_status == "Due Soon" or user.profile.tire_maintenance_status == "Due Soon" or user.profile.fluid_check_status == "Due Soon" %}
+            <div class="alert alert-warning shadow-sm rounded-4 mb-4" role="alert">
+                <h5 class="fw-bold mb-2">Maintenance Coming Up</h5>
+                <ul class="mb-0">
+                    {% if user.profile.oil_change_status == "Due Soon" %}
+                        <li>Oil change is due soon: {{ user.profile.next_oil_change }}.</li>
+                    {% endif %}
+
+                    {% if user.profile.tire_maintenance_status == "Due Soon" %}
+                        <li>Tire maintenance is due soon: {{ user.profile.next_tire_maintenance }}.</li>
+                    {% endif %}
+
+                    {% if user.profile.fluid_check_status == "Due Soon" %}
+                        <li>Fluid check is due soon: {{ user.profile.next_fluid_check }}.</li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
     {% endif %}
-{% endif %}
 
     <!-- HERO IMAGE -->
     <div class="mb-5 text-center">
-        <img src="{% static 'newApp/images/LogoWithCarNoBg.png' %}" 
-             class="img-fluid rounded-4 shadow"
-             style="max-height: 500px;">
+        <img 
+            src="{% static 'newApp/images/LogoWithCarNoBg.png' %}" 
+            class="img-fluid rounded-4 shadow"
+            style="max-height: 500px;"
+            alt="AutoPulse logo with car"
+        >
     </div>
 
     <!-- HERO TEXT -->
@@ -55,86 +63,92 @@
     </div>
 
     <!-- MAIN GRID -->
-<div class="row g-4 justify-content-center">
+    <div class="row g-4 justify-content-center">
 
-    <!-- MY CAR -->
-    <div class="col-lg-3 col-md-6">
-        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
+        <!-- MY CAR -->
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-            <h3 class="mb-3">My Car</h3>
+                <h3 class="mb-3 text-light">My Car</h3>
 
-            <p class="text">
-                {% if user.is_authenticated and user.profile.car_make %}
-                    {{ user.profile.car_year }} {{ user.profile.car_make }} {{ user.profile.car_model }}
-                {% else %}
-                    No car added yet. Click below to set up your vehicle.
-                {% endif %}
-            </p>
+                <p class="text-light">
+                    {% if user.is_authenticated and user.profile.car_make %}
+                        {{ user.profile.car_year }} {{ user.profile.car_make }} {{ user.profile.car_model }}
+                    {% else %}
+                        No car added yet. Click below to set up your vehicle.
+                    {% endif %}
+                </p>
 
-            <div class="mt-auto">
-                <a href="{% url 'profile' %}" 
-                   class="btn btn-warning rounded-pill px-4">
-                    View My Car
-                </a>
+                <div class="mt-auto">
+                    <a href="{% url 'profile' %}" 
+                       class="btn btn-warning rounded-pill px-4">
+                        View My Car
+                    </a>
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <!-- DASHBOARD DICTIONARY -->
-    <div class="col-lg-3 col-md-6">
-        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
+        <!-- DASHBOARD DICTIONARY -->
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-            <h3 class="mb-3">Dashboard Dictionary</h3>
+                <h3 class="mb-3 text-light">Dashboard Dictionary</h3>
 
-            <p class="text">
-                Understand what your dashboard warning lights mean.
-            </p>
+                <p class="text-light">
+                    Understand what your dashboard warning lights mean.
+                </p>
 
-            <div class="mt-auto">
-                <a href="{% url 'dashboard-dictionary' %}" 
-                   class="btn btn-primary rounded-pill px-4">
-                    Open Dictionary
-                </a>
+                <div class="mt-auto">
+                    <a href="{% url 'dashboard-dictionary' %}" 
+                       class="btn btn-primary rounded-pill px-4">
+                        Open Dictionary
+                    </a>
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <!-- DIY VIDEOS -->
-    <div class="col-lg-3 col-md-6">
-        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
+        <!-- DIY VIDEOS -->
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-            <h3 class="mb-3">DIY Videos</h3>
+                <h3 class="mb-3 text-light">DIY Videos</h3>
 
-            <p class="text">
-                Change oil, replace filters, check fluids, and handle basic repairs.
-            </p>
+                <p class="text-light">
+                    Change oil, replace filters, check fluids, and handle basic repairs.
+                </p>
 
-            <div class="mt-auto">
-                <a href="{% url 'diy-videos' %}" 
-                   class="btn btn-danger rounded-pill px-4">
-                    Watch Videos
-                </a>
+                <div class="mt-auto">
+                    <a href="{% url 'diy-videos' %}" 
+                       class="btn btn-danger rounded-pill px-4">
+                        Watch Videos
+                    </a>
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <!-- FORUM -->
-    <div class="col-lg-3 col-md-6">
-        <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
+        <!-- FORUM -->
+        <div class="col-lg-3 col-md-6">
+            <div class="dashboard-panel shadow-lg p-4 text-center h-100 d-flex flex-column">
 
-            <h3 class="mb-3">Forum</h3>
+                <h3 class="mb-3 text-light">Forum</h3>
 
-            <p class="text">
-                Share car problems, post maintenance tips, and connect with others.
-            </p>
+                <p class="text-light">
+                    Share car problems, post maintenance tips, and connect with others.
+                </p>
 
-            <div class="mt-auto">
-                <a href="{% url 'forum' %}" 
-                   class="btn btn-success rounded-pill px-4">
-                    Open Forum
-                </a>
+                <div class="mt-auto">
+                    <a href="{% url 'forum' %}" 
+                       class="btn btn-success rounded-pill px-4">
+                        Open Forum
+                    </a>
+                </div>
+
             </div>
         </div>
+
     </div>
 
 </div>

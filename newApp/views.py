@@ -11,11 +11,15 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import ForumPost, ForumReply
-from .forms import ForumPostForm, ForumReplyForm
 
+from .models import ForumPost, MaintenanceRecord
+from .forms import (
+    UserUpdateForm,
+    ProfileUpdateForm,
+    ForumPostForm,
+    ForumReplyForm,
+)
 
-from .forms import UserUpdateForm, ProfileUpdateForm
 
 VPIC_BASE_URL = "https://vpic.nhtsa.dot.gov/api/vehicles"
 
@@ -41,8 +45,11 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, "newApp/profile.html")
+    maintenance_records = request.user.profile.maintenance_records.all().order_by("-service_date")
 
+    return render(request, "newApp/profile.html", {
+        "maintenance_records": maintenance_records
+    })
 
 def dashboard_dictionary(request):
     return render(request, "newApp/dashboard_dictionary.html")
@@ -60,7 +67,8 @@ def fetch_json(url):
     except (URLError, HTTPError, TimeoutError, ValueError):
         return {"Results": []}
 
-#Car makes and models API
+
+# Car makes and models API
 def get_car_makes():
     url = f"{VPIC_BASE_URL}/GetMakesForVehicleType/car?format=json"
     data = fetch_json(url)
@@ -100,12 +108,13 @@ def get_car_models(make, year):
 
     return sorted(set(models), key=lambda x: x[0].lower())
 
-#Car images API 
-def get_vehicle_image(year, make, model):
 
+# Car images API
+def get_vehicle_image(year, make, model):
     if not make or not model:
         return ""
 
+    # Keep your current API key here.
     api_key = "ci_425c9616d82fac61df41c44bbbb95a181c2e3c02d5da4911cce8659f"
 
     url = (
@@ -154,7 +163,6 @@ def edit_profile(request):
 
         p_form = ProfileUpdateForm(
             request.POST,
-            request.FILES,
             instance=request.user.profile,
             make_choices=make_choices,
             model_choices=model_choices,
@@ -185,6 +193,17 @@ def edit_profile(request):
                     )
 
                 profile.save()
+
+                maintenance_record_type = p_form.cleaned_data.get("maintenance_record_type")
+                maintenance_service_date = p_form.cleaned_data.get("maintenance_service_date")
+
+                if maintenance_record_type and maintenance_service_date:
+                    MaintenanceRecord.objects.create(
+                        profile=profile,
+                        maintenance_type=maintenance_record_type,
+                        service_date=maintenance_service_date,
+                        mileage_at_service=profile.current_mileage,
+                    )
 
                 messages.success(request, "Your profile has been updated.")
                 return redirect("profile")
@@ -234,6 +253,8 @@ def api_car_models(request):
         "models": [{"value": value, "label": label} for value, label in models]
     })
 
+
+# Forum views
 @login_required
 def forum(request):
     if request.method == "POST":
@@ -255,6 +276,7 @@ def forum(request):
         "posts": posts,
     })
 
+
 @login_required
 def like_forum_post(request, post_id):
     post = get_object_or_404(ForumPost, id=post_id)
@@ -265,6 +287,7 @@ def like_forum_post(request, post_id):
         post.liked_by.add(request.user)
 
     return redirect("forum")
+
 
 @login_required
 def reply_to_forum_post(request, post_id):
